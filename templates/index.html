@@ -12,40 +12,42 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            flex-direction: column;
         }
         .container {
             background-color: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            width: auto;
+            max-width: 80%;
         }
         .features-container {
             display: flex;
-            justify-content: space-around;
-            width: 100%;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
         }
         .features-section {
-            display: flex;
-            flex-direction: column;
-            padding: 10px;
+            flex: 1;
+            min-width: 250px;
         }
         h2 {
             color: #333;
+            text-align: center;
         }
         form {
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 100%;
         }
         label {
+            display: block;
             margin-top: 10px;
         }
         select, input[type=range], input[type=submit], output {
-            padding: 5px;
+            width: 100%;
+            padding: 10px;
             margin-top: 5px;
         }
         input[type=submit] {
@@ -54,10 +56,9 @@
             border: none;
             cursor: pointer;
             margin-top: 20px;
-            font-size: 20px; /* Increase font size */
-            padding: 15px 30px; /* Increase padding for larger button */
-            width: 50%; /* Optional: Adjust width as needed */
-            border-radius: 5px; /* Optional: Add rounded corners */
+            font-size: 18px;
+            padding: 10px 20px;
+            width: auto;
         }
         input[type=submit]:hover {
             background-color: #45a049;
@@ -89,7 +90,7 @@
                     <label for="{{ feature }}">{{ feature.replace('_', ' ').capitalize() }}:</label>
                     <select name="{{ feature }}" id="{{ feature }}">
                         {% for choice in choices %}
-                        <option value="{{ choice }}">{{ choice }}</option>
+                        <option value="{{ choice }}" {% if submitted_values.get(feature) == choice %}selected{% endif %}>{{ choice }}</option>
                         {% endfor %}
                     </select>
                     {% endfor %}
@@ -97,8 +98,8 @@
                 <div class="features-section">
                     {% for feature in ['math_score', 'reading_score', 'writing_score'] %}
                     <label for="{{ feature }}">{{ feature.replace('_', ' ').capitalize() }}:</label>
-                    <input type="range" id="{{ feature }}" name="{{ feature }}" min="0" max="100" oninput="this.nextElementSibling.value = this.value">
-                    <output>50</output><br>
+                    <input type="range" id="{{ feature }}" name="{{ feature }}" min="0" max="100" value="{{ submitted_values.get(feature, 50) }}" oninput="this.nextElementSibling.value = this.value">
+                    <output>{{ submitted_values.get(feature, 50) }}</output><br>
                     {% endfor %}
                 </div>
             </div>

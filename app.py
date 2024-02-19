@@ -20,7 +20,7 @@ feature_choices = {
 @app.route('/')
 def home():
     # Pass feature names and choices to the template
-    return render_template('index.html', feature_choices=feature_choices)
+    return render_template('index.html', feature_choices=feature_choices, submitted_values={})
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -30,7 +30,6 @@ def predict():
         features[feature] = float(request.form[feature])
     
     # Convert features to DataFrame
-    import pandas as pd
     features_df = pd.DataFrame([features])
     
     # Prediction
@@ -40,7 +39,7 @@ def predict():
     mapping = {0: 'Group A', 1: 'Group B', 2: 'Group C', 3: 'Group D', 4: 'Group E'}
     output = mapping.get(prediction[0], "Unknown Group")
 
-    return render_template('index.html', feature_choices=feature_choices, prediction_text=f'Predicted Group: {output}')
+    return render_template('index.html', feature_choices=feature_choices, prediction_text=f'Predicted Group: {output}', submitted_values=features)
 
 if __name__ == "__main__":
     app.run(debug=True)
