@@ -8,10 +8,13 @@ with open("best_xgb_model_pipeline.pkl", "rb") as file:
 
 # Categorical feature choices
 feature_choices = {
-    'gender': ['Male', 'Female'],
-    'parental_education_level': ['Some high school', 'High school', 'Some college', "Associate's degree", "Bachelor's degree", "Master's degree"],
-    'lunch': ['Standard', 'Free/reduced'],
-    'test_prep_course': ['None', 'Completed']
+    'gender': ['female', 'male'],
+    'parental_education_level': [
+        'some college', "associate's degree", 'high school', 
+        'some high school', "bachelor's degree", "master's degree"
+    ],
+    'lunch': ['standard', 'free/reduced'],
+    'test_prep_course': ['none', 'completed']
 }
 
 @app.route('/')
