@@ -3,7 +3,8 @@ import pandas as pd
 import pickle
 
 app = Flask(__name__)
-model = pickle.load("best_xgb_model_pipeline.pkl")
+with open("best_xgb_model_pipeline.pkl", "rb") as file:
+    pipeline = pickle.load(file)
 
 # Categorical feature choices
 feature_choices = {
@@ -30,7 +31,7 @@ def predict():
     features_df = pd.DataFrame([features])
     
     # Prediction
-    prediction = model.predict(features_df)
+    prediction = pipeline.predict(features_df)
     
     # Map prediction to named class
     mapping = {0: 'Group A', 1: 'Group B', 2: 'Group C', 3: 'Group D', 4: 'Group E'}
