@@ -12,22 +12,34 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            flex-direction: column;
         }
         .container {
             background-color: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .features-container {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+        }
+        .features-section {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
         }
         h2 {
             color: #333;
-            text-align: center;
         }
         form {
             display: flex;
             flex-direction: column;
+            align-items: center;
+            width: 100%;
         }
         label {
             margin-top: 10px;
@@ -55,6 +67,7 @@
         .footer {
             margin-top: 20px;
             text-align: center;
+            width: 100%;
         }
         img {
             max-width: 100%;
@@ -66,21 +79,25 @@
     <div class="container">
         <h2>Predict Student Group</h2>
         <form action="/predict" method="post">
-            {% for feature, choices in feature_choices.items() %}
-            <label for="{{ feature }}">{{ feature.replace('_', ' ').capitalize() }}:</label>
-            <select name="{{ feature }}" id="{{ feature }}">
-                {% for choice in choices %}
-                <option value="{{ choice }}">{{ choice }}</option>
-                {% endfor %}
-            </select>
-            {% endfor %}
-            
-            {% for feature in ['math_score', 'reading_score', 'writing_score'] %}
-            <label for="{{ feature }}">{{ feature.replace('_', ' ').capitalize() }}:</label>
-            <input type="range" id="{{ feature }}" name="{{ feature }}" min="0" max="100" oninput="this.nextElementSibling.value = this.value">
-            <output>50</output><br>
-            {% endfor %}
-            
+            <div class="features-container">
+                <div class="features-section">
+                    {% for feature, choices in feature_choices.items() %}
+                    <label for="{{ feature }}">{{ feature.replace('_', ' ').capitalize() }}:</label>
+                    <select name="{{ feature }}" id="{{ feature }}">
+                        {% for choice in choices %}
+                        <option value="{{ choice }}">{{ choice }}</option>
+                        {% endfor %}
+                    </select>
+                    {% endfor %}
+                </div>
+                <div class="features-section">
+                    {% for feature in ['math_score', 'reading_score', 'writing_score'] %}
+                    <label for="{{ feature }}">{{ feature.replace('_', ' ').capitalize() }}:</label>
+                    <input type="range" id="{{ feature }}" name="{{ feature }}" min="0" max="100" oninput="this.nextElementSibling.value = this.value">
+                    <output>50</output><br>
+                    {% endfor %}
+                </div>
+            </div>
             <input type="submit" value="Predict">
         </form>
         {% if prediction_text %}
